@@ -2,9 +2,13 @@
 
 address, port = ARGV
 
-$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'vendor', 'drbfire', 'lib'))
-require 'drb-processing/client'
+ROOT = File.expand_path(File.dirname(__FILE__) + "/../..")
+LIB = File.join(ROOT, "lib")
+$:.unshift(LIB) unless $:.include?(LIB)
+$:.unshift("#{ROOT}/vendor/drbfire/lib")
+
+require "drb-processing/client"
+
 java_import 'java.awt.event.WindowEvent'
 java_import 'java.awt.event.KeyEvent'
 require 'logger'

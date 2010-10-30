@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+ROOT = File.expand_path(File.dirname(__FILE__) + "/..")
+LIB = File.join(ROOT, "lib")
+$:.unshift(LIB) unless $:.include?(LIB)
+$:.unshift("#{ROOT}/vendor/drbfire/lib")
+
+require "ruby-processing"
+
+ARGV.unshift("live", "#{LIB}/drb-processing/shell.rb")
+
+# Monkey patch time!!
+Processing::Runner.class_eval do
+  def spin_up(starter_script, sketch, args)
+    runner = "#{LIB}/drb-processing/live.rb"
+    java_args = discover_java_args(sketch)
+    # Let's just always use JRuby, for now.
+    command = ['jruby', java_args, runner, sketch, args].flatten
+    exec *command
+  end
+  
+  def discover_java_args(sketch)
+    arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
+    args = []
+    args += File.read(arg_file).split(/\s+/) if File.exists?(arg_file)
+    args
+  end
+end
+
+Processing::Runner.execute

@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
-$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'vendor', 'drbfire', 'lib'))
+ROOT = File.expand_path(File.dirname(__FILE__) + "/..")
+LIB = File.join(ROOT, "lib")
+$:.unshift(LIB) unless $:.include?(LIB)
+$:.unshift("#{ROOT}/vendor/drbfire/lib")
+
 require 'drb-processing/server'
 require 'logger'
 

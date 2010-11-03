@@ -7,7 +7,7 @@ $:.unshift("#{ROOT}/vendor/drbfire/lib")
 
 require "ruby-processing"
 
-ARGV.unshift("live", "#{LIB}/drb-processing/shell.rb")
+ARGV.unshift("live", "#{LIB}/drb-processing/sketch.rb")
 
 # Monkey patch time!!
 Processing::Runner.class_eval do

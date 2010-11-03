@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+$: << File.dirname(__FILE__) + "/../lib"
+require 'drb-processing/client'
+class Mock; def method_missing(name, *args); puts "#{name}(#{arguments.join(", ")})"; end; end
+client = DRbProcessing::Client.new(Mock.new)
+client.connect("druby://localhost:7000")
